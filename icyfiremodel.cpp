@@ -108,11 +108,10 @@ QVariant IcyfireModel::data(const QModelIndex &idx, int role) const
     Q_ASSERT(checkIndex(idx, CheckIndexOption::IndexIsValid | CheckIndexOption::ParentIsInvalid));
 
     QVariant var;
+    const auto &entry = entries_.at(idx.row());
 
     if (role == Qt::DisplayRole || role == Qt::ToolTipRole)
     {
-        const auto &entry = entries_.at(idx.row());
-
         switch (idx.column())
         {
         case ThreadColumn:
@@ -132,6 +131,30 @@ QVariant IcyfireModel::data(const QModelIndex &idx, int role) const
             break;
         default:
             break;
+        }
+    }
+    else if (role == Qt::ForegroundRole)
+    {
+        static const QBrush blue(QColor(97, 175, 239));
+        static const QBrush orange(QColor(229, 192, 123));
+        static const QBrush red(QColor(224, 108, 117));
+        static const QBrush gray(Qt::gray);
+
+        if (entry.level == QLatin1String("Info"))
+        {
+            var = blue;
+        }
+        else if (entry.level == QLatin1String("Warning"))
+        {
+            var = orange;
+        }
+        else if (entry.level == QLatin1String("Critical"))
+        {
+            var = red;
+        }
+        else
+        {
+            var = gray;
         }
     }
 
