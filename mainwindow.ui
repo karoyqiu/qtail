@@ -16,6 +16,20 @@
   <property name="documentMode">
    <bool>true</bool>
   </property>
+  <widget class="QMdiArea" name="mdiArea">
+   <property name="viewMode">
+    <enum>QMdiArea::TabbedView</enum>
+   </property>
+   <property name="documentMode">
+    <bool>true</bool>
+   </property>
+   <property name="tabsClosable">
+    <bool>true</bool>
+   </property>
+   <property name="tabsMovable">
+    <bool>true</bool>
+   </property>
+  </widget>
   <widget class="QToolBar" name="toolBarMain">
    <property name="windowTitle">
     <string>Main</string>
@@ -31,7 +45,8 @@
   </widget>
   <action name="actionOpen">
    <property name="icon">
-    <iconset theme="document-open"/>
+    <iconset theme="document-open">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Open</string>
@@ -42,7 +57,8 @@
   </action>
   <action name="actionSearch">
    <property name="icon">
-    <iconset theme="edit-find"/>
+    <iconset theme="edit-find">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Search</string>

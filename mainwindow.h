@@ -14,5 +14,8 @@ public:
     virtual ~MainWindow();
 
 private:
+    void openFile();
+
+private:
     Ui::MainWindow *ui;
 };
