@@ -50,8 +50,9 @@ set(TS_FILES qtail_zh_CN.ts)
 
 set(PROJECT_SOURCES
     main.cpp
-    mainform.cpp mainform.h mainform.ui
+    mainwindow.cpp mainwindow.h mainwindow.ui
     #resource.h "${CMAKE_CURRENT_BINARY_DIR}/resource.rc"
+    icons.qrc
     ${TS_FILES}
 )
 
