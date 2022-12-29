@@ -8,7 +8,7 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # QtCreator supports the following variables for Android, which are identical to qmake Android variables.
@@ -91,3 +91,12 @@ foreach(L ${QT_LIBS})
 endforeach()
 
 target_precompile_headers(qtail PRIVATE "<QtWidgets>" "stable.h")
+
+if(WIN32)
+    find_library(WinRT windowsapp)
+
+    if(WinRT)
+        target_compile_definitions(qtail PRIVATE HAS_WINRT)
+        target_link_libraries(qtail PRIVATE ${WinRT})
+    endif()
+endif()

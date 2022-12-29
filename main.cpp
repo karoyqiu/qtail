@@ -1,16 +1,35 @@
-#include "stable.h"
+#ifdef HAS_WINRT
+#include <winrt/Windows.UI.ViewManagement.h>
+#endif
+
 #include "mainwindow.h"
+
+
+#ifdef HAS_WINRT
+static inline bool isColorLight(const winrt::Windows::UI::Color &clr)
+{
+    return (((5 * clr.G) + (2 * clr.R) + clr.B) > (8 * 128));
+}
+#endif
 
 
 static void checkDarkMode(QApplication &app)
 {
 #ifdef Q_OS_WIN
+#ifdef HAS_WINRT
+    using namespace winrt::Windows::UI::ViewManagement;
+
+    UISettings settings;
+    auto foreground = settings.GetColorValue(UIColorType::Foreground);
+    auto isDarkMode = isColorLight(foreground);
+
+    if (isDarkMode)
+#else
     QSettings settings(QS(R"(HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize)"), QSettings::NativeFormat);
 
-    if (settings.value("AppsUseLightTheme") == 0)
+    if (settings.value(QS("AppsUseLightTheme")) == 0)
+#endif
     {
-        app.setStyle(QStyleFactory::create(QS("Fusion")));
-
         QPalette darkPalette;
         QColor darkColor(45, 45, 45);
         QColor disabledColor(127, 127, 127);
@@ -32,9 +51,10 @@ static void checkDarkMode(QApplication &app)
         darkPalette.setColor(QPalette::HighlightedText, Qt::black);
         darkPalette.setColor(QPalette::Disabled, QPalette::HighlightedText, disabledColor);
 
-        app.setPalette(darkPalette);
+        QApplication::setStyle(QS("Fusion"));
+        QApplication::setPalette(darkPalette);
 
-        app.setStyleSheet(QS("QToolTip { color: #ffffff; background-color: #2a82da; border: 1px solid white; }"));
+        app.setStyleSheet(QS("QToolTip { color: #cccccc; background-color: #121212; border: 1px solid gray; }"));
     }
 #else
     Q_UNUSED(app);
@@ -44,6 +64,10 @@ static void checkDarkMode(QApplication &app)
 
 int main(int argc, char *argv[])
 {
+#ifdef Q_OS_WIN
+    qputenv("QT_QPA_PLATFORM", QB("windows:darkmode=1"));
+#endif
+
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     QApplication::setAttribute(Qt::AA_DisableWindowContextHelpButton);

@@ -69,7 +69,7 @@
 <context>
     <name>main</name>
     <message>
-        <location filename="main.cpp" line="55"/>
+        <location filename="main.cpp" line="79"/>
         <source>qtail</source>
         <translation type="unfinished"></translation>
     </message>
