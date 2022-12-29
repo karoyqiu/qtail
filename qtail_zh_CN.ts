@@ -56,12 +56,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="25"/>
+        <location filename="mainwindow.cpp" line="51"/>
         <source>Log files (*.log);;All files (*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="57"/>
+        <location filename="mainwindow.cpp" line="83"/>
         <source>Failed to open file: %1</source>
         <translation type="unfinished"></translation>
     </message>

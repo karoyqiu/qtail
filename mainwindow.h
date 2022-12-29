@@ -14,8 +14,10 @@ public:
     virtual ~MainWindow();
 
 private:
+    void findMonoFont();
     void openFile();
 
 private:
     Ui::MainWindow *ui;
+    QFont mono_;
 };

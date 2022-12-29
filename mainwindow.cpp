@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    findMonoFont();
 
     connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::openFile);
 }
@@ -17,6 +18,31 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+
+void MainWindow::findMonoFont()
+{
+    QFontDatabase fdb;
+    auto families = fdb.families(QFontDatabase::Latin);
+
+    const QStringList candidates{
+        QS("Cascadia Code"),
+        QS("Cascadia Mono"),
+        QS("Roboto Mono"),
+        QS("Consolas"),
+    };
+
+    for (const auto &candidate : candidates)
+    {
+        if (families.contains(candidate))
+        {
+            mono_ = QFont(candidate, 10);
+            return;
+        }
+    }
+
+    mono_ = QFontDatabase::systemFont(QFontDatabase::FixedFont);
 }
 
 
@@ -34,7 +60,7 @@ void MainWindow::openFile()
 
     if (file->open(QFile::ReadOnly | QFile::Text))
     {
-        view->setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
+        view->setFont(mono_);
 
         auto *stream = new QTextStream(file);
         stream->setCodec("UTF-8");
