@@ -4,28 +4,56 @@
 <context>
     <name>IcyfireModel</name>
     <message>
-        <location filename="icyfiremodel.cpp" line="57"/>
+        <location filename="icyfiremodel.cpp" line="90"/>
         <source>Thread</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="icyfiremodel.cpp" line="60"/>
+        <location filename="icyfiremodel.cpp" line="93"/>
         <source>Timestamp</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="icyfiremodel.cpp" line="63"/>
+        <location filename="icyfiremodel.cpp" line="96"/>
         <source>Level</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="icyfiremodel.cpp" line="66"/>
+        <location filename="icyfiremodel.cpp" line="99"/>
         <source>Module</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="icyfiremodel.cpp" line="69"/>
+        <location filename="icyfiremodel.cpp" line="102"/>
         <source>Message</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>LogLevelDelegate</name>
+    <message>
+        <location filename="logleveldelegate.cpp" line="27"/>
+        <source>Debug</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="logleveldelegate.cpp" line="29"/>
+        <source>Info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="logleveldelegate.cpp" line="31"/>
+        <source>Warning</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="logleveldelegate.cpp" line="33"/>
+        <source>Error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="logleveldelegate.cpp" line="35"/>
+        <source>Fatal</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -56,12 +84,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="86"/>
+        <location filename="mainwindow.cpp" line="87"/>
         <source>Log files (*.log);;All files (*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="132"/>
+        <location filename="mainwindow.cpp" line="137"/>
         <source>Failed to open file %1: %2</source>
         <translation type="unfinished"></translation>
     </message>

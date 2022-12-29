@@ -2,6 +2,7 @@
 #include "./ui_mainwindow.h"
 
 #include "icyfiremodel.h"
+#include "logleveldelegate.h"
 #include "logwindow.h"
 
 
@@ -110,6 +111,9 @@ void MainWindow::watch(const QString &filename)
         model->setStream(stream);
         view->setModel(model);
 
+        auto *dlgt = new LogLevelDelegate(view);
+        view->setItemDelegateForColumn(IcyfireModel::LevelColumn, dlgt);
+
         auto *header = view->horizontalHeader();
         header->setStretchLastSection(true);
         header->resizeSections(QHeaderView::ResizeToContents);
@@ -121,6 +125,7 @@ void MainWindow::watch(const QString &filename)
         connect(window, &LogWindow::closed, this, &MainWindow::unwatch);
         ui->mdiArea->addSubWindow(window);
         windows_.insert(filename, window);
+        window->showMaximized();
 
         if (!watcher_->addPath(filename))
         {

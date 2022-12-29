@@ -15,6 +15,26 @@
 
 class QTextStream;
 
+enum class LogLevel
+{
+    Unknown,
+    Debug,
+    Info,
+    Warning,
+    Critical,
+    Fatal,
+};
+
+struct LogEntry
+{
+    QDateTime timestamp;
+    QString levelString;
+    QString module;
+    QString message;
+    LogLevel level = LogLevel::Unknown;
+    int thread = 0;
+};
+
 
 class IcyfireModel : public QAbstractTableModel
 {
@@ -48,15 +68,6 @@ public:
     void readMore();
 
 private:
-    struct LogEntry
-    {
-        QDateTime timestamp;
-        QString level;
-        QString module;
-        QString message;
-        int thread = 0;
-    };
-
     QTextStream *stream_;
     QVector<LogEntry> entries_;
 };

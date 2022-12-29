@@ -13,6 +13,39 @@
 #include "icyfiremodel.h"
 
 
+static LogLevel levelFromString(const QString &s)
+{
+    auto lower = s.toLower();
+
+    if (lower == QL("debug") || lower == QL("dbg"))
+    {
+        return LogLevel::Debug;
+    }
+
+    if (lower == QL("info"))
+    {
+        return LogLevel::Info;
+    }
+
+    if (lower == QL("warning") || lower == QL("warn"))
+    {
+        return LogLevel::Warning;
+    }
+
+    if (lower == QL("critical") || lower == QL("error"))
+    {
+        return LogLevel::Critical;
+    }
+
+    if (lower == QL("fatal"))
+    {
+        return LogLevel::Fatal;
+    }
+
+    return LogLevel::Unknown;
+}
+
+
 IcyfireModel::IcyfireModel(QObject *parent)
     : QAbstractTableModel(parent)
     , stream_(nullptr)
@@ -121,7 +154,14 @@ QVariant IcyfireModel::data(const QModelIndex &idx, int role) const
             var = entry.timestamp;
             break;
         case LevelColumn:
-            var = entry.level;
+            if (entry.level == LogLevel::Unknown)
+            {
+                var = entry.levelString;
+            }
+            else
+            {
+                var = static_cast<int>(entry.level);
+            }
             break;
         case ModuleColumn:
             var = entry.module;
@@ -136,25 +176,27 @@ QVariant IcyfireModel::data(const QModelIndex &idx, int role) const
     else if (role == Qt::ForegroundRole)
     {
         static const QBrush blue(QColor(97, 175, 239));
-        static const QBrush orange(QColor(229, 192, 123));
+        static const QBrush yellow(QColor(229, 192, 123));
         static const QBrush red(QColor(224, 108, 117));
         static const QBrush gray(Qt::gray);
 
-        if (entry.level == QLatin1String("Info"))
+        switch (entry.level)
         {
-            var = blue;
-        }
-        else if (entry.level == QLatin1String("Warning"))
-        {
-            var = orange;
-        }
-        else if (entry.level == QLatin1String("Critical"))
-        {
-            var = red;
-        }
-        else
-        {
+        case LogLevel::Debug:
             var = gray;
+            break;
+        case LogLevel::Info:
+            var = blue;
+            break;
+        case LogLevel::Warning:
+            var = yellow;
+            break;
+        case LogLevel::Critical:
+        case LogLevel::Fatal:
+            var = red;
+            break;
+        default:
+            break;
         }
     }
 
@@ -179,8 +221,14 @@ void IcyfireModel::readMore()
         {
             entry.thread = result.captured(1).toInt();
             entry.timestamp = QDateTime::fromString(result.captured(2), Qt::ISODateWithMs);
-            entry.level = result.captured(3);
+            entry.levelString = result.captured(3);
+            entry.level = levelFromString(entry.levelString);
             entry.module = result.captured(4);
+
+            if (entry.level != LogLevel::Unknown)
+            {
+                entry.levelString.clear();
+            }
 
             if (!entry.module.isEmpty())
             {

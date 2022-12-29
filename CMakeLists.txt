@@ -53,6 +53,7 @@ set(PROJECT_SOURCES
     mainwindow.cpp mainwindow.h mainwindow.ui
     logwindow.h logwindow.cpp
     icyfiremodel.h icyfiremodel.cpp
+    logleveldelegate.h logleveldelegate.cpp
     #resource.h "${CMAKE_CURRENT_BINARY_DIR}/resource.rc"
     icons.qrc
     ${TS_FILES}
