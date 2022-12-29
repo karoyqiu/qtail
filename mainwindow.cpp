@@ -2,13 +2,19 @@
 #include "./ui_mainwindow.h"
 
 #include "icyfiremodel.h"
+#include "logwindow.h"
 
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
+    , watcher_(nullptr)
 {
     ui->setupUi(this);
+
+    watcher_ = new QFileSystemWatcher(this);
+    connect(watcher_, &QFileSystemWatcher::fileChanged, this, &MainWindow::readMore);
+
     findMonoFont();
 
     connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::openFile);
@@ -74,9 +80,18 @@ void MainWindow::openFile()
         header->setStretchLastSection(true);
         header->resizeSections(QHeaderView::ResizeToContents);
 
-        auto *window = ui->mdiArea->addSubWindow(view);
+        auto *window = new LogWindow(this);
+        window->setWidget(view);
         window->setWindowTitle(filename.section(QLatin1Char('/'), -1));
         window->setWindowFilePath(filename);
+        connect(window, &LogWindow::closed, this, &MainWindow::unwatch);
+        ui->mdiArea->addSubWindow(window);
+        windows_.insert(filename, window);
+
+        if (!watcher_->addPath(filename))
+        {
+            qWarning() << "Failed to watch" << filename;
+        }
     }
     else
     {
@@ -84,4 +99,27 @@ void MainWindow::openFile()
         delete file;
         delete view;
     }
+}
+
+
+void MainWindow::readMore(const QString &filename)
+{
+    auto *window = windows_.value(filename);
+    auto *view = window->view();
+    auto *bar = view->verticalScrollBar();
+    auto atEnd = bar->value() == bar->maximum();
+    auto *model = window->model();
+    model->readMore();
+
+    if (atEnd)
+    {
+        view->scrollToBottom();
+    }
+}
+
+
+void MainWindow::unwatch(const QString &filename)
+{
+    watcher_->removePath(filename);
+    windows_.remove(filename);
 }

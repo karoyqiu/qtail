@@ -51,6 +51,7 @@ set(TS_FILES qtail_zh_CN.ts)
 set(PROJECT_SOURCES
     main.cpp
     mainwindow.cpp mainwindow.h mainwindow.ui
+    logwindow.h logwindow.cpp
     icyfiremodel.h icyfiremodel.cpp
     #resource.h "${CMAKE_CURRENT_BINARY_DIR}/resource.rc"
     icons.qrc

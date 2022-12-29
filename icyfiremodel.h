@@ -45,7 +45,6 @@ public:
 
     virtual QVariant data(const QModelIndex &idx, int role = Qt::DisplayRole) const override;
 
-private:
     void readMore();
 
 private:
