@@ -18,12 +18,29 @@ MainWindow::MainWindow(QWidget *parent)
     findMonoFont();
 
     connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::openFile);
+
+    QSettings settings;
+    restoreGeometry(settings.value(QS("geo")).toByteArray());
+    restoreState(settings.value(QS("state")).toByteArray());
+
+    QTimer::singleShot(0, this, &MainWindow::loadLastSession);
 }
 
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+
+void MainWindow::closeEvent(QCloseEvent *e)
+{
+    QSettings settings;
+    settings.setValue(QS("geo"), saveGeometry());
+    settings.setValue(QS("state"), saveState());
+    settings.setValue(QS("filenames"), QStringList{ windows_.keys() });
+
+    QMainWindow::closeEvent(e);
 }
 
 
@@ -52,15 +69,32 @@ void MainWindow::findMonoFont()
 }
 
 
+void MainWindow::loadLastSession()
+{
+    QSettings settings;
+    const auto filenames = settings.value(QS("filenames")).toStringList();
+
+    for (const auto &filename : filenames)
+    {
+        watch(filename);
+    }
+}
+
+
 void MainWindow::openFile()
 {
     auto filename = QFileDialog::getOpenFileName(this, {}, {}, tr("Log files (*.log);;All files (*)"));
 
-    if (filename.isEmpty())
+    if (!filename.isEmpty())
     {
-        return;
+        watch(filename);
     }
+}
 
+
+void MainWindow::watch(const QString &filename)
+{
+    Q_ASSERT(!filename.isEmpty());
     auto *view = new QTableView(this);
     auto *file = new QFile(filename, view);
 
@@ -95,7 +129,7 @@ void MainWindow::openFile()
     }
     else
     {
-        QMessageBox::critical(this, {}, tr("Failed to open file: %1").arg(file->errorString()));
+        QMessageBox::critical(this, {}, tr("Failed to open file %1: %2").arg(QDir::toNativeSeparators(filename), file->errorString()));
         delete file;
         delete view;
     }

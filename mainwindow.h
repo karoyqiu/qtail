@@ -16,9 +16,14 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     virtual ~MainWindow();
 
+protected:
+    virtual void closeEvent(QCloseEvent *e) override;
+
 private:
     void findMonoFont();
+    void loadLastSession();
     void openFile();
+    void watch(const QString &filename);
     void readMore(const QString &filename);
     void unwatch(const QString &filename);
 
