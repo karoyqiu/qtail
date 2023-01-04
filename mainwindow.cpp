@@ -45,6 +45,40 @@ void MainWindow::closeEvent(QCloseEvent *e)
 }
 
 
+void MainWindow::dragEnterEvent(QDragEnterEvent *e)
+{
+    const auto *mime = e->mimeData();
+
+    if (mime->hasUrls())
+    {
+        for (const auto &url : mime->urls())
+        {
+            if (!url.isLocalFile())
+            {
+                return;
+            }
+        }
+
+        e->acceptProposedAction();
+    }
+}
+
+
+void MainWindow::dropEvent(QDropEvent *e)
+{
+    const auto *mime = e->mimeData();
+    Q_ASSERT(mime->hasUrls());
+
+    for (const auto &url : mime->urls())
+    {
+        Q_ASSERT(url.isLocalFile());
+        watch(url.toLocalFile());
+    }
+
+    e->acceptProposedAction();
+}
+
+
 void MainWindow::findMonoFont()
 {
     QFontDatabase fdb;
@@ -96,6 +130,15 @@ void MainWindow::openFile()
 void MainWindow::watch(const QString &filename)
 {
     Q_ASSERT(!filename.isEmpty());
+
+    if (windows_.contains(filename))
+    {
+        auto *window = windows_.value(filename);
+        Q_ASSERT(window != nullptr);
+        ui->mdiArea->setActiveSubWindow(window);
+        return;
+    }
+
     auto *view = new QTableView(this);
     auto *file = new QFile(filename, view);
 

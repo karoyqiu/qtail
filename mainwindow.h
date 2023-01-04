@@ -18,6 +18,8 @@ public:
 
 protected:
     virtual void closeEvent(QCloseEvent *e) override;
+    virtual void dragEnterEvent(QDragEnterEvent *e) override;
+    virtual void dropEvent(QDropEvent *e) override;
 
 private:
     void findMonoFont();
