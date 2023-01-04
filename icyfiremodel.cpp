@@ -207,7 +207,7 @@ QVariant IcyfireModel::data(const QModelIndex &idx, int role) const
 void IcyfireModel::readMore()
 {
     Q_ASSERT(stream_ != nullptr);
-    static const QRegularExpression regexp(QS(R"(\[(\d+);(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}),(\w+)]\s(\[\w+]\s|<\w+>\s)?(.+))"));
+    static const QRegularExpression regexp(QS(R"(\[(\d+);(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}),(\w+)]\s(\[[\w.]+]\s|<[\w.]+>\s)?(.+))"));
 
     int count = 0;
 

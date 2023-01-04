@@ -62,24 +62,28 @@
     <message>
         <location filename="mainwindow.ui" line="35"/>
         <location filename="out/build/x64-Debug/qtail_autogen/include/ui_mainwindow.h" line="82"/>
+        <location filename="out/build/x64-Release/qtail_autogen/include/ui_mainwindow.h" line="82"/>
         <source>Main</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="52"/>
         <location filename="out/build/x64-Debug/qtail_autogen/include/ui_mainwindow.h" line="77"/>
+        <location filename="out/build/x64-Release/qtail_autogen/include/ui_mainwindow.h" line="77"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="55"/>
         <location filename="out/build/x64-Debug/qtail_autogen/include/ui_mainwindow.h" line="79"/>
+        <location filename="out/build/x64-Release/qtail_autogen/include/ui_mainwindow.h" line="79"/>
         <source>Ctrl+O</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="64"/>
         <location filename="out/build/x64-Debug/qtail_autogen/include/ui_mainwindow.h" line="81"/>
+        <location filename="out/build/x64-Release/qtail_autogen/include/ui_mainwindow.h" line="81"/>
         <source>Search</source>
         <translation type="unfinished"></translation>
     </message>
