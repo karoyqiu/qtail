@@ -44,7 +44,7 @@ set(QT_LIBS
 find_package(QT NAMES Qt6 Qt5 COMPONENTS ${QT_LIBS} LinguistTools REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS ${QT_LIBS} LinguistTools REQUIRED)
 
-#configure_file(resource.rc.in resource.rc @ONLY)
+configure_file(resource.rc.in resource.rc @ONLY)
 
 set(TS_FILES qtail_zh_CN.ts)
 
@@ -54,7 +54,7 @@ set(PROJECT_SOURCES
     logwindow.h logwindow.cpp
     icyfiremodel.h icyfiremodel.cpp
     logleveldelegate.h logleveldelegate.cpp
-    #resource.h "${CMAKE_CURRENT_BINARY_DIR}/resource.rc"
+    "${CMAKE_CURRENT_BINARY_DIR}/resource.rc"
     icons.qrc
     ${TS_FILES}
 )
