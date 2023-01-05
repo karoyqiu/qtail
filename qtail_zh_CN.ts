@@ -60,51 +60,51 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="mainwindow.ui" line="38"/>
-        <location filename="out/build/x64-Debug/qtail_autogen/include/ui_mainwindow.h" line="85"/>
-        <location filename="out/build/x64-Release/qtail_autogen/include/ui_mainwindow.h" line="85"/>
+        <location filename="mainwindow.ui" line="35"/>
+        <location filename="out/build/x64-Debug/qtail_autogen/include/ui_mainwindow.h" line="102"/>
+        <location filename="out/build/x64-Release/qtail_autogen/include/ui_mainwindow.h" line="102"/>
         <source>Main</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="55"/>
-        <location filename="out/build/x64-Debug/qtail_autogen/include/ui_mainwindow.h" line="73"/>
-        <location filename="out/build/x64-Release/qtail_autogen/include/ui_mainwindow.h" line="73"/>
+        <location filename="mainwindow.ui" line="53"/>
+        <location filename="out/build/x64-Debug/qtail_autogen/include/ui_mainwindow.h" line="90"/>
+        <location filename="out/build/x64-Release/qtail_autogen/include/ui_mainwindow.h" line="90"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="58"/>
-        <location filename="out/build/x64-Debug/qtail_autogen/include/ui_mainwindow.h" line="75"/>
-        <location filename="out/build/x64-Release/qtail_autogen/include/ui_mainwindow.h" line="75"/>
+        <location filename="mainwindow.ui" line="56"/>
+        <location filename="out/build/x64-Debug/qtail_autogen/include/ui_mainwindow.h" line="92"/>
+        <location filename="out/build/x64-Release/qtail_autogen/include/ui_mainwindow.h" line="92"/>
         <source>Ctrl+O</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="69"/>
-        <location filename="out/build/x64-Debug/qtail_autogen/include/ui_mainwindow.h" line="77"/>
-        <location filename="out/build/x64-Release/qtail_autogen/include/ui_mainwindow.h" line="77"/>
+        <location filename="mainwindow.ui" line="68"/>
+        <location filename="out/build/x64-Debug/qtail_autogen/include/ui_mainwindow.h" line="94"/>
+        <location filename="out/build/x64-Release/qtail_autogen/include/ui_mainwindow.h" line="94"/>
         <source>Search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="72"/>
-        <location filename="out/build/x64-Debug/qtail_autogen/include/ui_mainwindow.h" line="79"/>
-        <location filename="out/build/x64-Release/qtail_autogen/include/ui_mainwindow.h" line="79"/>
+        <location filename="mainwindow.ui" line="71"/>
+        <location filename="out/build/x64-Debug/qtail_autogen/include/ui_mainwindow.h" line="96"/>
+        <location filename="out/build/x64-Release/qtail_autogen/include/ui_mainwindow.h" line="96"/>
         <source>Ctrl+F</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="80"/>
-        <location filename="out/build/x64-Debug/qtail_autogen/include/ui_mainwindow.h" line="81"/>
-        <location filename="out/build/x64-Release/qtail_autogen/include/ui_mainwindow.h" line="81"/>
+        <location filename="out/build/x64-Debug/qtail_autogen/include/ui_mainwindow.h" line="98"/>
+        <location filename="out/build/x64-Release/qtail_autogen/include/ui_mainwindow.h" line="98"/>
         <source>Go to End</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="83"/>
-        <location filename="out/build/x64-Debug/qtail_autogen/include/ui_mainwindow.h" line="83"/>
-        <location filename="out/build/x64-Release/qtail_autogen/include/ui_mainwindow.h" line="83"/>
+        <location filename="out/build/x64-Debug/qtail_autogen/include/ui_mainwindow.h" line="100"/>
+        <location filename="out/build/x64-Release/qtail_autogen/include/ui_mainwindow.h" line="100"/>
         <source>Ctrl+End</source>
         <translation type="unfinished"></translation>
     </message>
