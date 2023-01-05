@@ -10,11 +10,12 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , watcher_(nullptr)
+    , readTimer_(nullptr)
 {
     ui->setupUi(this);
 
     watcher_ = new QFileSystemWatcher(this);
-    connect(watcher_, &QFileSystemWatcher::fileChanged, this, &MainWindow::readMore);
+    connect(watcher_, &QFileSystemWatcher::fileChanged, this, &MainWindow::readFile);
 
     findMonoFont();
 
@@ -170,10 +171,17 @@ void MainWindow::watch(const QString &filename)
         windows_.insert(filename, window);
         window->showMaximized();
 
-        if (!watcher_->addPath(filename))
+        if (Q_UNLIKELY(!watcher_->addPath(filename)))
         {
             qWarning() << "Failed to watch" << filename;
         }
+
+        //if (Q_UNLIKELY(readTimer_ == nullptr))
+        //{
+        //    readTimer_ = new QTimer(this);
+        //    connect(readTimer_, &QTimer::timeout, this, &MainWindow::readAll);
+        //    readTimer_->start(250);
+        //}
     }
     else
     {
@@ -184,9 +192,15 @@ void MainWindow::watch(const QString &filename)
 }
 
 
-void MainWindow::readMore(const QString &filename)
+void MainWindow::readFile(const QString &filename)
 {
-    auto *window = windows_.value(filename);
+    readWindow(windows_.value(filename));
+}
+
+
+void MainWindow::readWindow(LogWindow *window)
+{
+    Q_ASSERT(window != nullptr);
     auto *view = window->view();
     const auto *bar = view->verticalScrollBar();
 
@@ -195,6 +209,15 @@ void MainWindow::readMore(const QString &filename)
         auto *model = window->model();
         model->readToEnd();
         view->scrollToBottom();
+    }
+}
+
+
+void MainWindow::readAll()
+{
+    for (auto *window : qAsConst(windows_))
+    {
+        readWindow(window);
     }
 }
 

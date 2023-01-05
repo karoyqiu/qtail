@@ -26,13 +26,16 @@ private:
     void loadLastSession();
     void openFile();
     void watch(const QString &filename);
-    void readMore(const QString &filename);
+    void readFile(const QString &filename);
+    void readWindow(LogWindow *window);
+    void readAll();
     void unwatch(const QString &filename);
     void goToEnd();
 
 private:
     Ui::MainWindow *ui;
     QFileSystemWatcher *watcher_;
+    QTimer *readTimer_;
     QMap<QString, LogWindow *> windows_;
     QFont mono_;
 };
