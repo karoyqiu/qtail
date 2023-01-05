@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
     findMonoFont();
 
     connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::openFile);
+    connect(ui->actionGoToEnd, &QAction::triggered, this, &MainWindow::goToEnd);
 
     QSettings settings;
     restoreGeometry(settings.value(QS("geo")).toByteArray());
@@ -139,6 +140,7 @@ void MainWindow::watch(const QString &filename)
         return;
     }
 
+    static auto *dlgt = new LogLevelDelegate(this);
     auto *view = new QTableView(this);
     auto *file = new QFile(filename, view);
 
@@ -153,8 +155,6 @@ void MainWindow::watch(const QString &filename)
         auto *model = new IcyfireModel(view);
         model->setStream(stream);
         view->setModel(model);
-
-        auto *dlgt = new LogLevelDelegate(view);
         view->setItemDelegateForColumn(IcyfireModel::LevelColumn, dlgt);
 
         auto *header = view->horizontalHeader();
@@ -188,13 +188,12 @@ void MainWindow::readMore(const QString &filename)
 {
     auto *window = windows_.value(filename);
     auto *view = window->view();
-    auto *bar = view->verticalScrollBar();
-    auto atEnd = bar->value() == bar->maximum();
-    auto *model = window->model();
-    model->readMore();
+    const auto *bar = view->verticalScrollBar();
 
-    if (atEnd)
+    if (bar->value() == bar->maximum())
     {
+        auto *model = window->model();
+        model->readToEnd();
         view->scrollToBottom();
     }
 }
@@ -204,4 +203,18 @@ void MainWindow::unwatch(const QString &filename)
 {
     watcher_->removePath(filename);
     windows_.remove(filename);
+}
+
+
+void MainWindow::goToEnd()
+{
+    auto *window = qobject_cast<LogWindow *>(ui->mdiArea->currentSubWindow());
+
+    if (window != nullptr)
+    {
+        auto *view = window->view();
+        auto *model = window->model();
+        model->readToEnd();
+        view->scrollToBottom();
+    }
 }

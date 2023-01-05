@@ -1,7 +1,8 @@
 <RCC>
     <qresource prefix="/">
         <file>icons/elementary/index.theme</file>
-        <file>icons/elementary/actions/24/edit-find.svg</file>
         <file>icons/elementary/actions/24/document-open.svg</file>
+        <file>icons/elementary/actions/24/edit-find.svg</file>
+        <file>icons/elementary/actions/24/go-down.svg</file>
     </qresource>
 </RCC>

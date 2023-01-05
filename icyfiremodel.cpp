@@ -12,6 +12,7 @@
  **************************************************************************************************/
 #include "icyfiremodel.h"
 
+static const int BATCH_SIZE = 128;
 
 static LogLevel levelFromString(const QString &s)
 {
@@ -73,7 +74,7 @@ void IcyfireModel::setStream(QTextStream *value)
 
     if (stream_ != nullptr)
     {
-        readMore();
+        readMore(BATCH_SIZE);
     }
 }
 
@@ -219,19 +220,19 @@ void IcyfireModel::fetchMore(const QModelIndex &parent)
 {
     if (!parent.isValid() && stream_ != nullptr)
     {
-        readMore();
+        readMore(BATCH_SIZE);
     }
 }
 
 
-void IcyfireModel::readMore()
+void IcyfireModel::readMore(int lines)
 {
     Q_ASSERT(stream_ != nullptr);
     static const QRegularExpression regexp(QS(R"(\[(\d+);(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}),(\w+)]\s(\[[\w.]+]\s|<[\w.]+>\s)?(.+))"));
 
     int count = 0;
 
-    for (; !stream_->atEnd() && count < 128; count++)
+    for (; !stream_->atEnd() && count < lines; count++)
     {
         auto line = stream_->readLine();
         auto result = regexp.match(line);

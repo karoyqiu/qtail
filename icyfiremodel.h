@@ -68,7 +68,10 @@ public:
     virtual bool canFetchMore(const QModelIndex &parent) const override;
     virtual void fetchMore(const QModelIndex &parent) override;
 
-    void readMore();
+    void readToEnd() { readMore(std::numeric_limits<int>::max()); }
+
+private:
+    void readMore(int lines);
 
 private:
     QTextStream *stream_;

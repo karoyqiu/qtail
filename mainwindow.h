@@ -28,6 +28,7 @@ private:
     void watch(const QString &filename);
     void readMore(const QString &filename);
     void unwatch(const QString &filename);
+    void goToEnd();
 
 private:
     Ui::MainWindow *ui;

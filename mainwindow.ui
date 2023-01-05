@@ -45,11 +45,11 @@
    </attribute>
    <addaction name="actionOpen"/>
    <addaction name="actionSearch"/>
+   <addaction name="actionGoToEnd"/>
   </widget>
   <action name="actionOpen">
    <property name="icon">
-    <iconset theme="document-open">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="document-open"/>
    </property>
    <property name="text">
     <string>Open</string>
@@ -59,12 +59,28 @@
    </property>
   </action>
   <action name="actionSearch">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
-    <iconset theme="edit-find">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="edit-find"/>
    </property>
    <property name="text">
     <string>Search</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+F</string>
+   </property>
+  </action>
+  <action name="actionGoToEnd">
+   <property name="icon">
+    <iconset theme="go-down"/>
+   </property>
+   <property name="text">
+    <string>Go to End</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+End</string>
    </property>
   </action>
  </widget>
