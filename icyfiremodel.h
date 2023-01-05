@@ -65,6 +65,9 @@ public:
 
     virtual QVariant data(const QModelIndex &idx, int role = Qt::DisplayRole) const override;
 
+    virtual bool canFetchMore(const QModelIndex &parent) const override;
+    virtual void fetchMore(const QModelIndex &parent) override;
+
     void readMore();
 
 private:

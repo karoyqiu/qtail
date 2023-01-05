@@ -204,6 +204,26 @@ QVariant IcyfireModel::data(const QModelIndex &idx, int role) const
 }
 
 
+bool IcyfireModel::canFetchMore(const QModelIndex &parent) const
+{
+    if (parent.isValid() || stream_ == nullptr)
+    {
+        return false;
+    }
+
+    return !stream_->atEnd();
+}
+
+
+void IcyfireModel::fetchMore(const QModelIndex &parent)
+{
+    if (!parent.isValid() && stream_ != nullptr)
+    {
+        readMore();
+    }
+}
+
+
 void IcyfireModel::readMore()
 {
     Q_ASSERT(stream_ != nullptr);
@@ -211,7 +231,7 @@ void IcyfireModel::readMore()
 
     int count = 0;
 
-    while (!stream_->atEnd())
+    for (; !stream_->atEnd() && count < 128; count++)
     {
         auto line = stream_->readLine();
         auto result = regexp.match(line);
@@ -243,7 +263,6 @@ void IcyfireModel::readMore()
         }
 
         entries_.append(entry);
-        count++;
     }
 
     if (count > 0)
