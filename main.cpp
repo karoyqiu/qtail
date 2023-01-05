@@ -62,6 +62,39 @@ static void checkDarkMode(QApplication &app)
 }
 
 
+static void loadTranslations(const QString &baseName)
+{
+    QSettings settings;
+
+    if (settings.contains(QS("locale")))
+    {
+        QLocale::setDefault(settings.value(QS("locale")).toString());
+    }
+
+    QLocale locale;
+    QTranslator *t = new QTranslator(qApp);
+
+    if (t->load(locale, baseName, QS("_"), QLibraryInfo::location(QLibraryInfo::TranslationsPath)))
+    {
+        QApplication::installTranslator(t);
+    }
+    else if (t->load(locale, baseName, QS("_"), QApplication::applicationDirPath() % QL("/translations")))
+    {
+        QApplication::installTranslator(t);
+    }
+#ifdef QT_DEBUG
+    else if (t->load(locale, baseName, QS("_"), QApplication::applicationDirPath()))
+    {
+        QApplication::installTranslator(t);
+    }
+#endif
+    else
+    {
+        delete t;
+    }
+}
+
+
 int main(int argc, char *argv[])
 {
 #ifdef Q_OS_WIN
@@ -76,6 +109,8 @@ int main(int argc, char *argv[])
     QApplication::setApplicationName(QS("qtail"));
     QApplication::setOrganizationName(QS("karoyqiu"));
     QApplication::setOrganizationDomain(QS("karoyqiu.gmail.com"));
+
+    loadTranslations(QApplication::applicationName());
     QApplication::setApplicationDisplayName(QApplication::translate("main", "qtail"));
 
     checkDarkMode(a);
