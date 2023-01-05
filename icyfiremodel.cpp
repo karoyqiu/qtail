@@ -159,7 +159,7 @@ QVariant IcyfireModel::data(const QModelIndex &idx, int role) const
             {
                 var = entry.levelString;
             }
-            else
+            else if (role != Qt::ToolTipRole)
             {
                 var = static_cast<int>(entry.level);
             }
