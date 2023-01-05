@@ -110,6 +110,7 @@ int main(int argc, char *argv[])
     QApplication::setOrganizationName(QS("karoyqiu"));
     QApplication::setOrganizationDomain(QS("karoyqiu.gmail.com"));
 
+    loadTranslations(QS("qt"));
     loadTranslations(QApplication::applicationName());
     QApplication::setApplicationDisplayName(QApplication::translate("main", "qtail"));
 

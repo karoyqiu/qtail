@@ -122,7 +122,7 @@
 <context>
     <name>main</name>
     <message>
-        <location filename="main.cpp" line="114"/>
+        <location filename="main.cpp" line="115"/>
         <source>qtail</source>
         <translation></translation>
     </message>
