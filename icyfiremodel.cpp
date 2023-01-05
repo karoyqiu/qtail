@@ -268,16 +268,14 @@ void IcyfireModel::readMore(int lines)
 
     if (count > 0)
     {
-        qDebug() << "Read" << count;
         beginInsertRows({}, entries_.size(), entries_.size() + count - 1);
         endInsertRows();
     }
     else
     {
-        qDebug() << "Nothing read";
-        auto *file = qobject_cast<QFile *>(stream_->device());
+        auto *file = qobject_cast<QFileDevice *>(stream_->device());
 
-        if (file->size() == 0)
+        if (file != nullptr && file->size() < stream_->pos())
         {
             qInfo() << "File truncated" << file->fileName();
 
@@ -289,6 +287,7 @@ void IcyfireModel::readMore(int lines)
             }
 
             stream_->seek(0);
+            readMore(lines);
         }
     }
 }

@@ -176,12 +176,12 @@ void MainWindow::watch(const QString &filename)
             qWarning() << "Failed to watch" << filename;
         }
 
-        //if (Q_UNLIKELY(readTimer_ == nullptr))
-        //{
-        //    readTimer_ = new QTimer(this);
-        //    connect(readTimer_, &QTimer::timeout, this, &MainWindow::readAll);
-        //    readTimer_->start(250);
-        //}
+        if (Q_UNLIKELY(readTimer_ == nullptr))
+        {
+            readTimer_ = new QTimer(this);
+            connect(readTimer_, &QTimer::timeout, this, &MainWindow::readAll);
+            readTimer_->start(250);
+        }
     }
     else
     {
