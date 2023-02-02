@@ -4,27 +4,27 @@
 <context>
     <name>IcyfireModel</name>
     <message>
-        <location filename="icyfiremodel.cpp" line="91"/>
+        <location filename="icyfiremodel.cpp" line="25"/>
         <source>Thread</source>
         <translation>线程</translation>
     </message>
     <message>
-        <location filename="icyfiremodel.cpp" line="94"/>
+        <location filename="icyfiremodel.cpp" line="28"/>
         <source>Timestamp</source>
         <translation>时间</translation>
     </message>
     <message>
-        <location filename="icyfiremodel.cpp" line="97"/>
+        <location filename="icyfiremodel.cpp" line="31"/>
         <source>Level</source>
         <translation>等级</translation>
     </message>
     <message>
-        <location filename="icyfiremodel.cpp" line="100"/>
+        <location filename="icyfiremodel.cpp" line="34"/>
         <source>Module</source>
         <translation>模块</translation>
     </message>
     <message>
-        <location filename="icyfiremodel.cpp" line="103"/>
+        <location filename="icyfiremodel.cpp" line="37"/>
         <source>Message</source>
         <translation>消息</translation>
     </message>
@@ -32,29 +32,57 @@
 <context>
     <name>LogLevelDelegate</name>
     <message>
-        <location filename="logleveldelegate.cpp" line="27"/>
+        <source>Debug</source>
+        <translation type="vanished">调试</translation>
+    </message>
+    <message>
+        <source>Info</source>
+        <translation type="vanished">信息</translation>
+    </message>
+    <message>
+        <source>Warning</source>
+        <translation type="vanished">警告</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation type="vanished">错误</translation>
+    </message>
+    <message>
+        <source>Fatal</source>
+        <translation type="vanished">致命</translation>
+    </message>
+</context>
+<context>
+    <name>LogModel</name>
+    <message>
+        <location filename="logmodel.cpp" line="84"/>
         <source>Debug</source>
         <translation>调试</translation>
     </message>
     <message>
-        <location filename="logleveldelegate.cpp" line="29"/>
+        <location filename="logmodel.cpp" line="86"/>
         <source>Info</source>
         <translation>信息</translation>
     </message>
     <message>
-        <location filename="logleveldelegate.cpp" line="31"/>
+        <location filename="logmodel.cpp" line="88"/>
         <source>Warning</source>
         <translation>警告</translation>
     </message>
     <message>
-        <location filename="logleveldelegate.cpp" line="33"/>
+        <location filename="logmodel.cpp" line="90"/>
         <source>Error</source>
         <translation>错误</translation>
     </message>
     <message>
-        <location filename="logleveldelegate.cpp" line="35"/>
+        <location filename="logmodel.cpp" line="92"/>
         <source>Fatal</source>
         <translation>致命</translation>
+    </message>
+    <message>
+        <location filename="logmodel.cpp" line="95"/>
+        <source>&lt;Unknown&gt;</source>
+        <translation>&lt;未知&gt;</translation>
     </message>
 </context>
 <context>
@@ -109,12 +137,22 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="123"/>
+        <location filename="mainwindow.cpp" line="19"/>
+        <source>Level</source>
+        <translation>等级</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="20"/>
+        <source>&lt;All&gt;</source>
+        <translation>&lt;全部&gt;</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="107"/>
         <source>Log files (*.log);;All files (*)</source>
         <translation>日志文件 (*.log);;所有文件 (*)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="188"/>
+        <location filename="mainwindow.cpp" line="152"/>
         <source>Failed to open file %1: %2</source>
         <translation>打开文件 %1 失败：%2</translation>
     </message>
