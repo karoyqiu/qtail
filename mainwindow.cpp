@@ -19,17 +19,18 @@ MainWindow::MainWindow(QWidget *parent)
     comboLevel_ = new QComboBox(this);
     comboLevel_->setToolTip(tr("Level"));
     comboLevel_->addItem(tr("<All>"));
-    comboLevel_->addItem(LogLevelDelegate::logLevelToString(LogLevel::Debug));
-    comboLevel_->addItem(LogLevelDelegate::logLevelToString(LogLevel::Info));
-    comboLevel_->addItem(LogLevelDelegate::logLevelToString(LogLevel::Warning));
-    comboLevel_->addItem(LogLevelDelegate::logLevelToString(LogLevel::Critical));
-    comboLevel_->addItem(LogLevelDelegate::logLevelToString(LogLevel::Fatal));
+    comboLevel_->addItem(LogModel::levelToString(LogLevel::Debug));
+    comboLevel_->addItem(LogModel::levelToString(LogLevel::Info));
+    comboLevel_->addItem(LogModel::levelToString(LogLevel::Warning));
+    comboLevel_->addItem(LogModel::levelToString(LogLevel::Critical));
+    comboLevel_->addItem(LogModel::levelToString(LogLevel::Fatal));
+    ui->toolBarMain->addSeparator();
     ui->toolBarMain->addWidget(comboLevel_);
 
     watcher_ = new QFileSystemWatcher(this);
     connect(watcher_, &QFileSystemWatcher::fileChanged, this, &MainWindow::readFile);
 
-    findMonoFont();
+    LogWindow::findMonoFont();
 
     connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::openFile);
     connect(ui->actionGoToEnd, &QAction::triggered, this, &MainWindow::goToEnd);
@@ -93,31 +94,6 @@ void MainWindow::dropEvent(QDropEvent *e)
 }
 
 
-void MainWindow::findMonoFont()
-{
-    QFontDatabase fdb;
-    auto families = fdb.families(QFontDatabase::Latin);
-
-    const QStringList candidates{
-        QS("Cascadia Code"),
-        QS("Cascadia Mono"),
-        QS("Roboto Mono"),
-        QS("Consolas"),
-    };
-
-    for (const auto &candidate : candidates)
-    {
-        if (families.contains(candidate))
-        {
-            mono_ = QFont(candidate, 10);
-            return;
-        }
-    }
-
-    mono_ = QFontDatabase::systemFont(QFontDatabase::FixedFont);
-}
-
-
 void MainWindow::loadLastSession()
 {
     QSettings settings;
@@ -153,31 +129,11 @@ void MainWindow::watch(const QString &filename)
         return;
     }
 
-    static auto *dlgt = new LogLevelDelegate(this);
-    auto *view = new QTableView(this);
-    auto *file = new QFile(filename, view);
+    auto *file = new QFile(filename);
 
     if (file->open(QFile::ReadOnly | QFile::Text))
     {
-        view->setFont(mono_);
-
-        auto *stream = new QTextStream(file);
-        stream->setCodec("UTF-8");
-        stream->setAutoDetectUnicode(true);
-
-        auto *model = new IcyfireModel(view);
-        model->setStream(stream);
-        view->setModel(model);
-        view->setItemDelegateForColumn(IcyfireModel::LevelColumn, dlgt);
-
-        auto *header = view->horizontalHeader();
-        header->setStretchLastSection(true);
-        header->resizeSections(QHeaderView::ResizeToContents);
-
-        auto *window = new LogWindow(this);
-        window->setWidget(view);
-        window->setWindowTitle(filename.section(QLatin1Char('/'), -1));
-        window->setWindowFilePath(filename);
+        auto *window = new LogWindow(file, this);
         connect(window, &LogWindow::closed, this, &MainWindow::unwatch);
         ui->mdiArea->addSubWindow(window);
         windows_.insert(filename, window);
@@ -199,7 +155,6 @@ void MainWindow::watch(const QString &filename)
     {
         QMessageBox::critical(this, {}, tr("Failed to open file %1: %2").arg(QDir::toNativeSeparators(filename), file->errorString()));
         delete file;
-        delete view;
     }
 }
 
@@ -213,15 +168,7 @@ void MainWindow::readFile(const QString &filename)
 void MainWindow::readWindow(LogWindow *window)
 {
     Q_ASSERT(window != nullptr);
-    auto *view = window->view();
-    const auto *bar = view->verticalScrollBar();
-
-    if (bar->value() == bar->maximum())
-    {
-        auto *model = window->model();
-        model->readToEnd();
-        view->scrollToBottom();
-    }
+    window->readIfAtEnd();
 }
 
 
@@ -247,9 +194,6 @@ void MainWindow::goToEnd()
 
     if (window != nullptr)
     {
-        auto *view = window->view();
-        auto *model = window->model();
-        model->readToEnd();
-        view->scrollToBottom();
+        window->readToEnd();
     }
 }

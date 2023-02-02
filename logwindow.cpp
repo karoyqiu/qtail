@@ -11,25 +11,87 @@
  *
  **************************************************************************************************/
 #include "logwindow.h"
+
 #include "icyfiremodel.h"
+#include "logleveldelegate.h"
+
+QFont LogWindow::mono_;
 
 
-LogWindow::LogWindow(QWidget *parent, Qt::WindowFlags flags)
+LogWindow::LogWindow(QFile *file, QWidget *parent, Qt::WindowFlags flags)
     : QMdiSubWindow(parent, flags)
+    , view_(nullptr)
+    , proxy_(nullptr)
+    , model_(nullptr)
 {
+    Q_ASSERT(file != nullptr && file->isOpen() && file->isReadable());
+    file->setParent(this);
+
+    view_ = new QTableView(this);
+    view_->setFont(mono_);
+
+    auto *stream = new QTextStream(file);
+    stream->setCodec("UTF-8");
+    stream->setAutoDetectUnicode(true);
+
+    model_ = new IcyfireModel(this);
+    model_->setStream(stream);
+    view_->setModel(model_);
+
+    auto *dlgt = new LogLevelDelegate(this);
+    view_->setItemDelegateForColumn(IcyfireModel::LevelColumn, dlgt);
+
+    auto *header = view_->horizontalHeader();
+    header->setStretchLastSection(true);
+    header->resizeSections(QHeaderView::ResizeToContents);
+
+    setWidget(view_);
     setAttribute(Qt::WA_DeleteOnClose);
+    setWindowTitle(file->fileName().section(QLatin1Char('/'), -1));
+    setWindowFilePath(file->fileName());
 }
 
 
-QTableView *LogWindow::view() const
+void LogWindow::findMonoFont()
 {
-    return qobject_cast<QTableView *>(widget());
+    QFontDatabase fdb;
+    auto families = fdb.families(QFontDatabase::Latin);
+
+    const QStringList candidates{
+        QS("Cascadia Code"),
+        QS("Cascadia Mono"),
+        QS("Roboto Mono"),
+        QS("Consolas"),
+    };
+
+    for (const auto &candidate : candidates)
+    {
+        if (families.contains(candidate))
+        {
+            mono_ = QFont(candidate, 10);
+            return;
+        }
+    }
+
+    mono_ = QFontDatabase::systemFont(QFontDatabase::FixedFont);
 }
 
 
-IcyfireModel *LogWindow::model() const
+void LogWindow::readIfAtEnd()
 {
-    return qobject_cast<IcyfireModel *>(view()->model());
+    const auto *bar = view_->verticalScrollBar();
+
+    if (bar->value() == bar->maximum())
+    {
+        readToEnd();
+    }
+}
+
+
+void LogWindow::readToEnd()
+{
+    model_->readToEnd();
+    view_->scrollToBottom();
 }
 
 

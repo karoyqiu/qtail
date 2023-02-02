@@ -52,8 +52,10 @@ set(PROJECT_SOURCES
     main.cpp
     mainwindow.cpp mainwindow.h mainwindow.ui
     logwindow.h logwindow.cpp
+    logmodel.h logmodel.cpp
     icyfiremodel.h icyfiremodel.cpp
     logleveldelegate.h logleveldelegate.cpp
+    logproxymodel.h logproxymodel.cpp
     "${CMAKE_CURRENT_BINARY_DIR}/resource.rc"
     icons.qrc
     ${TS_FILES}

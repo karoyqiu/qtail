@@ -12,72 +12,6 @@
  **************************************************************************************************/
 #include "icyfiremodel.h"
 
-static const int BATCH_SIZE = 128;
-
-static LogLevel levelFromString(const QString &s)
-{
-    auto lower = s.toLower();
-
-    if (lower == QL("debug") || lower == QL("dbg"))
-    {
-        return LogLevel::Debug;
-    }
-
-    if (lower == QL("info"))
-    {
-        return LogLevel::Info;
-    }
-
-    if (lower == QL("warning") || lower == QL("warn"))
-    {
-        return LogLevel::Warning;
-    }
-
-    if (lower == QL("critical") || lower == QL("error"))
-    {
-        return LogLevel::Critical;
-    }
-
-    if (lower == QL("fatal"))
-    {
-        return LogLevel::Fatal;
-    }
-
-    return LogLevel::Unknown;
-}
-
-
-IcyfireModel::IcyfireModel(QObject *parent)
-    : QAbstractTableModel(parent)
-    , stream_(nullptr)
-{
-}
-
-
-IcyfireModel::~IcyfireModel()
-{
-    delete stream_;
-}
-
-
-void IcyfireModel::setStream(QTextStream *value)
-{
-    if (!entries_.isEmpty())
-    {
-        beginRemoveRows({}, 0, entries_.size() - 1);
-        entries_.clear();
-        endRemoveRows();
-    }
-
-    delete stream_;
-    stream_ = value;
-
-    if (stream_ != nullptr)
-    {
-        readMore(BATCH_SIZE);
-    }
-}
-
 
 QVariant IcyfireModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
@@ -108,21 +42,10 @@ QVariant IcyfireModel::headerData(int section, Qt::Orientation orientation, int 
     }
     else
     {
-        var = QAbstractTableModel::headerData(section, orientation, role);
+        var = LogModel::headerData(section, orientation, role);
     }
 
     return var;
-}
-
-
-int IcyfireModel::rowCount(const QModelIndex &parent) const
-{
-    if (parent.isValid())
-    {
-        return 0;
-    }
-
-    return entries_.size();
 }
 
 
@@ -176,11 +99,6 @@ QVariant IcyfireModel::data(const QModelIndex &idx, int role) const
     }
     else if (role == Qt::ForegroundRole)
     {
-        static const QBrush blue(QColor(97, 175, 239));
-        static const QBrush yellow(QColor(229, 192, 123));
-        static const QBrush red(QColor(224, 108, 117));
-        static const QBrush gray(Qt::gray);
-
         switch (entry.level)
         {
         case LogLevel::Debug:
@@ -202,26 +120,6 @@ QVariant IcyfireModel::data(const QModelIndex &idx, int role) const
     }
 
     return var;
-}
-
-
-bool IcyfireModel::canFetchMore(const QModelIndex &parent) const
-{
-    if (parent.isValid() || stream_ == nullptr)
-    {
-        return false;
-    }
-
-    return !stream_->atEnd();
-}
-
-
-void IcyfireModel::fetchMore(const QModelIndex &parent)
-{
-    if (!parent.isValid() && stream_ != nullptr)
-    {
-        readMore(BATCH_SIZE);
-    }
 }
 
 

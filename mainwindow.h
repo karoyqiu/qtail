@@ -22,7 +22,6 @@ protected:
     virtual void dropEvent(QDropEvent *e) override;
 
 private:
-    void findMonoFont();
     void loadLastSession();
     void openFile();
     void watch(const QString &filename);
@@ -39,5 +38,4 @@ private:
     QFileSystemWatcher *watcher_;
     QTimer *readTimer_;
     QMap<QString, LogWindow *> windows_;
-    QFont mono_;
 };

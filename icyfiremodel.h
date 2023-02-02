@@ -11,32 +11,10 @@
  *
  **************************************************************************************************/
 #pragma once
-#include <QAbstractTableModel>
-
-class QTextStream;
-
-enum class LogLevel
-{
-    Unknown,
-    Debug,
-    Info,
-    Warning,
-    Critical,
-    Fatal,
-};
-
-struct LogEntry
-{
-    QDateTime timestamp;
-    QString levelString;
-    QString module;
-    QString message;
-    LogLevel level = LogLevel::Unknown;
-    int thread = 0;
-};
+#include "logmodel.h"
 
 
-class IcyfireModel : public QAbstractTableModel
+class IcyfireModel : public LogModel
 {
     Q_OBJECT
 
@@ -51,29 +29,15 @@ public:
         ColumnCount
     };
 
-    explicit IcyfireModel(QObject *parent = nullptr);
-    virtual ~IcyfireModel();
-
-    void setStream(QTextStream *value);
+    using LogModel::LogModel;
 
     // Header:
     virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 
     // Basic functionality:
-    virtual int rowCount(const QModelIndex &parent = {}) const override;
     virtual int columnCount(const QModelIndex &parent = {}) const override;
-
     virtual QVariant data(const QModelIndex &idx, int role = Qt::DisplayRole) const override;
 
-    virtual bool canFetchMore(const QModelIndex &parent) const override;
-    virtual void fetchMore(const QModelIndex &parent) override;
-
-    void readToEnd() { readMore(std::numeric_limits<int>::max()); }
-
 private:
-    void readMore(int lines);
-
-private:
-    QTextStream *stream_;
-    QVector<LogEntry> entries_;
+    virtual void readMore(int lines) override;
 };
