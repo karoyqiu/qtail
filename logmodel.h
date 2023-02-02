@@ -56,6 +56,8 @@ public:
 
     virtual void readToEnd() { readMore(std::numeric_limits<int>::max()); }
 
+    const LogEntry &entryAt(int index) const { return entries_.at(index); }
+
     static QString levelToString(LogLevel level);
 
 protected:

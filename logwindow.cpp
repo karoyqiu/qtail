@@ -14,6 +14,7 @@
 
 #include "icyfiremodel.h"
 #include "logleveldelegate.h"
+#include "logproxymodel.h"
 
 QFont LogWindow::mono_;
 
@@ -36,7 +37,10 @@ LogWindow::LogWindow(QFile *file, QWidget *parent, Qt::WindowFlags flags)
 
     model_ = new IcyfireModel(this);
     model_->setStream(stream);
-    view_->setModel(model_);
+
+    proxy_ = new LogProxyModel(this);
+    proxy_->setSourceModel(model_);
+    view_->setModel(proxy_);
 
     auto *dlgt = new LogLevelDelegate(this);
     view_->setItemDelegateForColumn(IcyfireModel::LevelColumn, dlgt);
@@ -92,6 +96,12 @@ void LogWindow::readToEnd()
 {
     model_->readToEnd();
     view_->scrollToBottom();
+}
+
+
+void LogWindow::setLevel(LogLevel level)
+{
+    proxy_->setLevel(level);
 }
 
 

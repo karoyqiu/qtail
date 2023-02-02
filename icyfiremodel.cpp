@@ -128,6 +128,7 @@ void IcyfireModel::readMore(int lines)
     Q_ASSERT(stream_ != nullptr);
     static const QRegularExpression regexp(QS(R"(\[(\d+);(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}),(\w+)]\s(\[[\w.]+]\s|<[\w.]+>\s)?(.+))"));
 
+    int first = entries_.count();
     int count = 0;
 
     for (; !stream_->atEnd() && count < lines; count++)
@@ -166,7 +167,7 @@ void IcyfireModel::readMore(int lines)
 
     if (count > 0)
     {
-        beginInsertRows({}, entries_.size(), entries_.size() + count - 1);
+        beginInsertRows({}, first, first + count - 1);
         endInsertRows();
     }
     else

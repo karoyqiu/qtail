@@ -134,7 +134,12 @@ void MainWindow::watch(const QString &filename)
     if (file->open(QFile::ReadOnly | QFile::Text))
     {
         auto *window = new LogWindow(file, this);
+        window->setLevel(static_cast<LogLevel>(comboLevel_->currentIndex()));
         connect(window, &LogWindow::closed, this, &MainWindow::unwatch);
+        connect(comboLevel_, qOverload<int>(&QComboBox::currentIndexChanged), window, [window](int value) {
+            window->setLevel(static_cast<LogLevel>(value));
+            }
+        );
         ui->mdiArea->addSubWindow(window);
         windows_.insert(filename, window);
         window->showMaximized();

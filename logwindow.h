@@ -13,9 +13,10 @@
 #pragma once
 #include <QMdiSubWindow>
 
+#include "logmodel.h"
+
 class QFile;
 class QTableView;
-class LogModel;
 class LogProxyModel;
 
 
@@ -33,6 +34,8 @@ public:
 
     void readIfAtEnd();
     void readToEnd();
+
+    void setLevel(LogLevel level);
 
 signals:
     void closed(const QString &filename);

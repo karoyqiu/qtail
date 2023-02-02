@@ -13,6 +13,8 @@
 #pragma once
 #include <QSortFilterProxyModel>
 
+#include "logmodel.h"
+
 
 class LogProxyModel : public QSortFilterProxyModel
 {
@@ -20,5 +22,15 @@ class LogProxyModel : public QSortFilterProxyModel
 
 public:
     explicit LogProxyModel(QObject *parent = nullptr);
-};
 
+    virtual void setSourceModel(QAbstractItemModel *sourceModel) override;
+
+    void setLevel(LogLevel level);
+
+protected:
+    virtual bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
+
+private:
+    LogModel *model_;
+    LogLevel level_;
+};
