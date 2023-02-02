@@ -13,16 +13,17 @@
 #pragma once
 #include <QStyledItemDelegate>
 
+#include "icyfiremodel.h"
+
 
 class LogLevelDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 
 public:
-    explicit LogLevelDelegate(QObject *parent = nullptr)
-        : QStyledItemDelegate(parent)
-    {
-    }
+    using QStyledItemDelegate::QStyledItemDelegate;
 
     virtual QString displayText(const QVariant &value, const QLocale &locale) const override;
+
+    static QString logLevelToString(LogLevel level);
 };

@@ -34,6 +34,8 @@ private:
 
 private:
     Ui::MainWindow *ui;
+    QComboBox *comboLevel_;
+    QComboBox *comboModule_;
     QFileSystemWatcher *watcher_;
     QTimer *readTimer_;
     QMap<QString, LogWindow *> windows_;

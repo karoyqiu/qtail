@@ -9,10 +9,22 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
+    , comboLevel_(nullptr)
+    , comboModule_(nullptr)
     , watcher_(nullptr)
     , readTimer_(nullptr)
 {
     ui->setupUi(this);
+
+    comboLevel_ = new QComboBox(this);
+    comboLevel_->setToolTip(tr("Level"));
+    comboLevel_->addItem(tr("<All>"));
+    comboLevel_->addItem(LogLevelDelegate::logLevelToString(LogLevel::Debug));
+    comboLevel_->addItem(LogLevelDelegate::logLevelToString(LogLevel::Info));
+    comboLevel_->addItem(LogLevelDelegate::logLevelToString(LogLevel::Warning));
+    comboLevel_->addItem(LogLevelDelegate::logLevelToString(LogLevel::Critical));
+    comboLevel_->addItem(LogLevelDelegate::logLevelToString(LogLevel::Fatal));
+    ui->toolBarMain->addWidget(comboLevel_);
 
     watcher_ = new QFileSystemWatcher(this);
     connect(watcher_, &QFileSystemWatcher::fileChanged, this, &MainWindow::readFile);
