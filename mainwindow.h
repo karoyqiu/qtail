@@ -25,9 +25,7 @@ private:
     void loadLastSession();
     void openFile();
     void watch(const QString &filename);
-    void readFile(const QString &filename);
-    void readWindow(LogWindow *window);
-    void readAll();
+    void readCurrent();
     void unwatch(const QString &filename);
     void goToEnd();
 
@@ -35,7 +33,6 @@ private:
     Ui::MainWindow *ui;
     QComboBox *comboLevel_;
     QComboBox *comboModule_;
-    QFileSystemWatcher *watcher_;
     QTimer *readTimer_;
     QMap<QString, LogWindow *> windows_;
 };

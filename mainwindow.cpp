@@ -11,7 +11,6 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
     , comboLevel_(nullptr)
     , comboModule_(nullptr)
-    , watcher_(nullptr)
     , readTimer_(nullptr)
 {
     ui->setupUi(this);
@@ -26,9 +25,6 @@ MainWindow::MainWindow(QWidget *parent)
     comboLevel_->addItem(LogModel::levelToString(LogLevel::Fatal));
     ui->toolBarMain->addSeparator();
     ui->toolBarMain->addWidget(comboLevel_);
-
-    watcher_ = new QFileSystemWatcher(this);
-    connect(watcher_, &QFileSystemWatcher::fileChanged, this, &MainWindow::readFile);
 
     LogWindow::findMonoFont();
 
@@ -144,15 +140,10 @@ void MainWindow::watch(const QString &filename)
         windows_.insert(filename, window);
         window->showMaximized();
 
-        if (Q_UNLIKELY(!watcher_->addPath(filename)))
-        {
-            qWarning() << "Failed to watch" << filename;
-        }
-
         if (Q_UNLIKELY(readTimer_ == nullptr))
         {
             readTimer_ = new QTimer(this);
-            connect(readTimer_, &QTimer::timeout, this, &MainWindow::readAll);
+            connect(readTimer_, &QTimer::timeout, this, &MainWindow::readCurrent);
             readTimer_->start(250);
         }
     }
@@ -164,31 +155,19 @@ void MainWindow::watch(const QString &filename)
 }
 
 
-void MainWindow::readFile(const QString &filename)
+void MainWindow::readCurrent()
 {
-    readWindow(windows_.value(filename));
-}
+    auto *window = qobject_cast<LogWindow *>(ui->mdiArea->currentSubWindow());
 
-
-void MainWindow::readWindow(LogWindow *window)
-{
-    Q_ASSERT(window != nullptr);
-    window->readIfAtEnd();
-}
-
-
-void MainWindow::readAll()
-{
-    for (auto *window : qAsConst(windows_))
+    if (window != nullptr)
     {
-        readWindow(window);
+        window->readIfAtEnd();
     }
 }
 
 
 void MainWindow::unwatch(const QString &filename)
 {
-    watcher_->removePath(filename);
     windows_.remove(filename);
 }
 
