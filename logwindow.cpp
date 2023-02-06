@@ -83,11 +83,14 @@ void LogWindow::findMonoFont()
 
 void LogWindow::readIfAtEnd()
 {
-    const auto *bar = view_->verticalScrollBar();
-
-    if (bar->value() == bar->maximum())
+    if (!model_->checkTruncated())
     {
-        readToEnd();
+        const auto *bar = view_->verticalScrollBar();
+
+        if (bar->value() == bar->maximum())
+        {
+            readToEnd();
+        }
     }
 }
 

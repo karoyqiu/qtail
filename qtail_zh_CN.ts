@@ -55,32 +55,32 @@
 <context>
     <name>LogModel</name>
     <message>
-        <location filename="logmodel.cpp" line="84"/>
+        <location filename="logmodel.cpp" line="90"/>
         <source>Debug</source>
         <translation>调试</translation>
     </message>
     <message>
-        <location filename="logmodel.cpp" line="86"/>
+        <location filename="logmodel.cpp" line="92"/>
         <source>Info</source>
         <translation>信息</translation>
     </message>
     <message>
-        <location filename="logmodel.cpp" line="88"/>
+        <location filename="logmodel.cpp" line="94"/>
         <source>Warning</source>
         <translation>警告</translation>
     </message>
     <message>
-        <location filename="logmodel.cpp" line="90"/>
+        <location filename="logmodel.cpp" line="96"/>
         <source>Error</source>
         <translation>错误</translation>
     </message>
     <message>
-        <location filename="logmodel.cpp" line="92"/>
+        <location filename="logmodel.cpp" line="98"/>
         <source>Fatal</source>
         <translation>致命</translation>
     </message>
     <message>
-        <location filename="logmodel.cpp" line="95"/>
+        <location filename="logmodel.cpp" line="101"/>
         <source>&lt;Unknown&gt;</source>
         <translation>&lt;未知&gt;</translation>
     </message>
@@ -137,22 +137,22 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="19"/>
+        <location filename="mainwindow.cpp" line="20"/>
         <source>Level</source>
         <translation>等级</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="20"/>
+        <location filename="mainwindow.cpp" line="21"/>
         <source>&lt;All&gt;</source>
         <translation>&lt;全部&gt;</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="107"/>
+        <location filename="mainwindow.cpp" line="111"/>
         <source>Log files (*.log);;All files (*)</source>
         <translation>日志文件 (*.log);;所有文件 (*)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="152"/>
+        <location filename="mainwindow.cpp" line="161"/>
         <source>Failed to open file %1: %2</source>
         <translation>打开文件 %1 失败：%2</translation>
     </message>

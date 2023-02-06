@@ -76,6 +76,12 @@ void LogModel::fetchMore(const QModelIndex &parent)
 }
 
 
+bool LogModel::checkTruncated()
+{
+    return checkTruncated(batchSize);
+}
+
+
 QString LogModel::levelToString(LogLevel level)
 {
     switch (level)

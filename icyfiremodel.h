@@ -38,6 +38,7 @@ public:
     virtual int columnCount(const QModelIndex &parent = {}) const override;
     virtual QVariant data(const QModelIndex &idx, int role = Qt::DisplayRole) const override;
 
-private:
+protected:
     virtual void readMore(int lines) override;
+    virtual bool checkTruncated(int lines) override;
 };

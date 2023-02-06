@@ -55,6 +55,7 @@ public:
     virtual void fetchMore(const QModelIndex &parent) override;
 
     virtual void readToEnd() { readMore(std::numeric_limits<int>::max()); }
+    bool checkTruncated();
 
     const LogEntry &entryAt(int index) const { return entries_.at(index); }
 
@@ -64,6 +65,7 @@ protected:
     static LogLevel levelFromString(const QString &s);
 
     virtual void readMore(int lines) = 0;
+    virtual bool checkTruncated(int lines) = 0;
 
 protected:
     static const QBrush blue;

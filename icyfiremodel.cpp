@@ -172,21 +172,31 @@ void IcyfireModel::readMore(int lines)
     }
     else
     {
-        auto *file = qobject_cast<QFileDevice *>(stream_->device());
-
-        if (file != nullptr && file->size() < stream_->pos())
-        {
-            qInfo() << "File truncated" << file->fileName();
-
-            if (!entries_.isEmpty())
-            {
-                beginRemoveRows({}, 0, entries_.size() - 1);
-                entries_.clear();
-                endRemoveRows();
-            }
-
-            stream_->seek(0);
-            readMore(lines);
-        }
+        checkTruncated(lines);
     }
+}
+
+
+bool IcyfireModel::checkTruncated(int lines)
+{
+    auto *file = qobject_cast<QFileDevice *>(stream_->device());
+
+    if (file != nullptr && file->size() < stream_->pos())
+    {
+        qInfo() << "File truncated" << file->fileName();
+
+        if (!entries_.isEmpty())
+        {
+            beginRemoveRows({}, 0, entries_.size() - 1);
+            entries_.clear();
+            endRemoveRows();
+        }
+
+        stream_->seek(0);
+        readMore(lines);
+
+        return true;
+    }
+
+    return false;
 }
