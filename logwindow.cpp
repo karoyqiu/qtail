@@ -87,7 +87,7 @@ void LogWindow::readIfAtEnd()
     {
         const auto *bar = view_->verticalScrollBar();
 
-        if (bar->value() == bar->maximum())
+        if (bar->maximum() - bar->value() <= 4)
         {
             readToEnd();
         }
